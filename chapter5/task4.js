@@ -1,29 +1,26 @@
-function deepEqual(a, b) {
-	if (a === null || b === null) {
-		return a === b;
-	} else if (typeof a === "object" && typeof b === "object") {
+function every(arr, func) {
+	for (const val of arr) {
 
-		const keysA = Object.keys(a);
-		const keysB = Object.keys(b);
-		if (keysA.length !== keysB.length) return false;
-
-
-		for (let key in a) {
-			if (!deepEqual(a[key], b[key])) {
-				return false;
-			}
-		}
-
-		
-	} else {
-		return a === b;
+		if (!func(val)) return false;
 	}
+	return true;
 }
 
-var obj = {here: {is: "an"}, object: 2};
-console.log(deepEqual(obj, obj));
+function some(arr, func) {
+	for (const val of arr) {
+
+		if (func(val)) return true;
+	}
+	return false;
+}
+
+
+
+console.log(every([NaN, NaN, NaN], isNaN));
 // → true
-console.log(deepEqual(obj, {here: 1, object: 2}));
+console.log(every([NaN, NaN, 4], isNaN));
 // → false
-console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
+console.log(some([NaN, 3, 4], isNaN));
 // → true
+console.log(some([2, 3, 4], isNaN));
+// → false

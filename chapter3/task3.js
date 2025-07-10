@@ -1,10 +1,15 @@
-var width = 5, height = 5;
+function countChar(str, chr) {
 
-for (var i = 0; i < height; i++) {
+	let result = 0;
 
-	if (i % 2 === 0) {
-		console.log("# ".repeat(width));
-	} else {
-		console.log(" #".repeat(height));
+	for (let i = 0; i < str.length; i++) {
+		if (str.charAt(i) === chr) {
+			result++;
+		}
 	}
+
+	return result;
+
 }
+
+console.log(countChar("asdawdwaj", "a"));

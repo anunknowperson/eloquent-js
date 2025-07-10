@@ -1,25 +1,22 @@
-function reverseArrayInPlace(array) {
-	let j = array.length - 1;
+const ancestry = JSON.parse(require("./ancestry.js"));
 
-	for (let i = 0; i != j; i++) {
-		let temp = array[j];
-		array[j] = array[i];
-		array[i] = temp;
-		j--;
-	}
+
+function average(array) {
+  function plus(a, b) { return a + b; }
+  return array.reduce(plus) / array.length;
 }
 
-function reverseArray(array) {
-	let copy = [...array];
+const byName = {};
+ancestry.forEach(function(person) {
+  byName[person.name] = person;
+});
 
-	reverseArrayInPlace(copy);
+const mother_present = ancestry.filter((val) => val.mother in byName);
 
-	return copy;	
-}
+console.log(average(mother_present.map( function (val, i) {
 
-var arrayValue = [1, 2, 3, 4, 5];
-reverseArrayInPlace(arrayValue);
-console.log(arrayValue);
+	return (val.born - byName[val.mother].born);
 
-console.log(reverseArray(["A", "B", "C"]));
-// → ["C", "B", "A"];
+})))
+
+// → 31.2

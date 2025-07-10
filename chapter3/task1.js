@@ -1,3 +1,5 @@
-for (var i = 1; i <= 7; i++) {
-	console.log("#".repeat(i));
+function min(a,b) {
+	return (a > b) ? b : a;
 }
+
+console.log(min(10, 15));

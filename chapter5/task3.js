@@ -1,63 +1,40 @@
-function arrayToList(arr) {
+const ancestry = JSON.parse(require("./ancestry.js"));
 
-	let start = null;
-	let prev = null;
 
-	for (val of arr) {
-		if (start === null) {
-			start = {
-				value : val,
-				rest : null
-			}
-			prev = start;
-		} else {
-			let list = {
-				
-				value : val,
-				rest : null
-				
-			}
-
-			prev.rest = list;
-
-			prev = list;
-		}
-	}
-
-	return start;
+function average(array) {
+  function plus(a, b) { return a + b; }
+  return array.reduce(plus) / array.length;
 }
 
-function listToArray(list) {
-	let result = [];
+function groupBy(array, func) {
+	let result = {};
 
-	while (list !== null) {
-		result.push(list.value);
-		list = list.rest;
+	for (let val of array) {
+		const key = func(val);
+		if (key in result) {
+			result[key].push(val);
+		} else {
+			result[key] = [val]
+		}
+	
 	}
 
 	return result;
 }
 
-function prepend(val, list) {
-	return {
-		value : val,
-		rest : list
-	}
+const byCentury = groupBy(ancestry, function ({died}){
+	return String(Math.ceil(died / 100));
+});
+
+for (const [key, value] of Object.entries(byCentury)) {
+	console.log(key + ": " + average(value.map(person => person.died - person.born)));
 }
 
-function nth(list, index, counter = 0) {
-	if (counter == index) {
-		return list.value;
-	} else {
-		return nth(list.rest, index, counter+1);
-	}
-}
-
-console.log(arrayToList([10, 20]));
-// → {value: 10, rest: {value: 20, rest: null}}
-console.log(listToArray(arrayToList([10, 20, 30])));
-// → [10, 20, 30]
-console.log(prepend(10, prepend(20, null)));
-// → {value: 10, rest: {value: 20, rest: null}}
-console.log(nth(arrayToList([10, 20, 30]), 1));
-// → 20
+/*
+16: 43.5
+17: 51.2
+18: 52.78947368421053
+19: 54.833333333333336
+20: 84.66666666666667
+21: 94
+*/

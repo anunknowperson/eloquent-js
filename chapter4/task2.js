@@ -1,23 +1,25 @@
-function isEven(val) {
-	
-	if (val < 0) {
-		return isEven(-val);
+function reverseArrayInPlace(array) {
+	let j = array.length - 1;
+
+	for (let i = 0; i != j; i++) {
+		let temp = array[j];
+		array[j] = array[i];
+		array[i] = temp;
+		j--;
 	}
-
-	if (val === 0) {
-		return true;
-	} else if (val === 1) {
-		return false;
-	} else {
-		return isEven(val - 2);
-	}
-
-	return val
-
 }
 
-console.log(isEven(50));
+function reverseArray(array) {
+	let copy = [...array];
 
-console.log(isEven(75));
+	reverseArrayInPlace(copy);
 
-console.log(isEven(-1));
+	return copy;	
+}
+
+var arrayValue = [1, 2, 3, 4, 5];
+reverseArrayInPlace(arrayValue);
+console.log(arrayValue);
+
+console.log(reverseArray(["A", "B", "C"]));
+// → ["C", "B", "A"];
